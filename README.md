@@ -1,97 +1,76 @@
 # Bus Ticketing Website
 
-A modern, responsive bus ticketing website built with React.js that simulates an end-to-end bus booking flow, from searching for buses to generating a final ticket.
+A modern, responsive bus ticketing website built with React.js. This application simulates a complete bus booking flow from searching for buses to generating a final ticket.
 
-## 🚀 Features
+## Overview
 
-- **Home Page**: Elegant search form to select source city, destination city, and journey date
-- **Search Results**: Displays available buses with detailed information in visually distinct cards
-- **Seat Selection**: Interactive seat layout with real-time fare calculation
-- **Passenger Information**: Robust form validation for collecting passenger details
-- **Review Booking**: Comprehensive summary of all booking details
-- **View Ticket**: Final ticket with randomly generated ticket ID
+This project implements a full-stack frontend application for bus ticket booking. Users can search for buses between cities, select seats, enter passenger details, review their booking, and receive a confirmation ticket. All data is hardcoded as per the assignment requirements.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **React 18.2.0**: Modern React with functional components and hooks
-- **React Router DOM 6.20.0**: Client-side routing
-- **Tailwind CSS 3.3.6**: Utility-first CSS framework for styling
-- **Vite 5.0.8**: Fast build tool and development server
+- React 18.2.0
+- React Router DOM 6.20.0
+- Tailwind CSS 3.3.6
+- Vite 5.0.8
 
-## 📁 Project Structure
+## Design and Architecture
 
-```
-bus-ticketing-app/
-├── src/
-│   ├── components/
-│   │   └── Layout.jsx          # Main layout component with navigation
-│   ├── context/
-│   │   └── BookingContext.jsx  # Context API for state management
-│   ├── pages/
-│   │   ├── HomePage.jsx        # Landing page with search form
-│   │   ├── SearchDetailsPage.jsx  # Bus listing page
-│   │   ├── SeatSelectionPage.jsx  # Seat selection with interactive layout
-│   │   ├── PassengerInfoPage.jsx  # Passenger information form
-│   │   ├── ReviewTicketPage.jsx   # Booking review page
-│   │   └── ViewTicketPage.jsx      # Final ticket display
-│   ├── services/
-│   │   ├── cityService.js      # City data management
-│   │   ├── busService.js       # Bus data and filtering
-│   │   ├── seatService.js      # Seat layout generation
-│   │   └── bookingService.js   # Booking data management
-│   ├── App.jsx                 # Main app component with routing
-│   ├── main.jsx               # Application entry point
-│   └── index.css              # Global styles with Tailwind
-├── index.html
-├── package.json
-├── vite.config.js
-├── tailwind.config.js
-└── postcss.config.js
-```
+### State Management
 
-## 🏗️ Architecture & Design Decisions
+I chose Context API for state management in this project. Here's my reasoning:
 
-### State Management: Context API
+1. **Project Scale**: For an application of this size, Context API provides sufficient state management without adding unnecessary complexity that comes with libraries like Redux.
 
-I chose **Context API** over other state management solutions (Redux, Zustand) for the following reasons:
+2. **No Additional Dependencies**: Context API is built into React, which keeps the bundle size smaller and reduces external dependencies.
 
-1. **Appropriate Scale**: For this application size, Context API provides sufficient state management without unnecessary complexity
-2. **Built-in Solution**: No additional dependencies required, keeping the bundle size smaller
-3. **Simplicity**: Easier to understand and maintain for a project of this scope
-4. **React Native Pattern**: Follows React's recommended patterns for component-level state sharing
+3. **Simplicity**: It's easier to understand and maintain, especially for someone reviewing the code. The state flow is straightforward and doesn't require learning additional concepts.
 
-The `BookingContext` manages:
-- Search parameters (from city, to city, date)
-- Selected bus details
-- Selected seats
-- Passenger information
-- Booking ID
+4. **React Best Practices**: Context API follows React's recommended patterns for sharing state across components without prop drilling.
+
+The BookingContext manages all booking-related state including search parameters, selected bus, seats, passenger information, and booking ID.
 
 ### Code Organization
 
-- **Modular Components**: Each page is a separate component for better maintainability
-- **Service Layer**: All data operations are abstracted into service files
-- **Separation of Concerns**: Clear separation between UI components, business logic, and data management
-- **Reusable Patterns**: Consistent error handling and validation across forms
+The project follows a modular structure:
+- **Pages**: Each route has its own component in the `pages/` directory
+- **Services**: Data management is separated into service files for cities, buses, seats, and bookings
+- **Context**: State management is handled through Context API
+- **Components**: Reusable components like Layout are in the `components/` directory
 
-## 📊 Dummy Data
+This separation makes the codebase easier to navigate and maintain.
 
-### Cities (20 cities)
-Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Kolkata, Pune, Ahmedabad, Jaipur, Surat, Lucknow, Kanpur, Nagpur, Indore, Thane, Bhopal, Visakhapatnam, Patna, Vadodara, Ghaziabad
+## Project Structure
 
-### Buses (21 buses)
-Each bus includes:
-- Unique bus ID
-- Bus name and operator
-- Route (from → to)
-- Departure and arrival times
-- Duration
-- Fare per seat
-- Bus type (AC Sleeper, AC Semi-Sleeper, Non-AC Sleeper)
-- Total and available seats
-- Amenities (AC, WiFi, Charging Point, Blanket, Water Bottle, Snacks)
+```
+src/
+├── components/
+│   └── Layout.jsx
+├── context/
+│   └── BookingContext.jsx
+├── pages/
+│   ├── HomePage.jsx
+│   ├── SearchDetailsPage.jsx
+│   ├── SeatSelectionPage.jsx
+│   ├── PassengerInfoPage.jsx
+│   ├── ReviewTicketPage.jsx
+│   └── ViewTicketPage.jsx
+├── services/
+│   ├── cityService.js
+│   ├── busService.js
+│   ├── seatService.js
+│   └── bookingService.js
+├── App.jsx
+├── main.jsx
+└── index.css
+```
 
-**Available Routes:**
+## Dummy Data
+
+### Cities
+The application includes 20 cities: Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Kolkata, Pune, Ahmedabad, Jaipur, Surat, Lucknow, Kanpur, Nagpur, Indore, Thane, Bhopal, Visakhapatnam, Patna, Vadodara, Ghaziabad.
+
+### Buses
+I've created 21 buses covering various routes:
 - Mumbai ↔ Delhi (3 buses)
 - Mumbai ↔ Bangalore (2 buses)
 - Delhi → Mumbai (1 bus)
@@ -107,39 +86,36 @@ Each bus includes:
 - Kolkata → Delhi (1 bus)
 - Kolkata → Mumbai (1 bus)
 
-### Seat Layout
-- Dynamic generation based on bus capacity
-- 4 seats per row (2 on each side: A, B, C, D)
-- Random availability (80% chance of being available)
-- Visual indicators for available, selected, and booked seats
+Each bus includes details like operator name, departure/arrival times, duration, fare, bus type (AC Sleeper, AC Semi-Sleeper, Non-AC Sleeper), seat availability, and amenities.
 
-## 🚦 Getting Started
+### Seat Layout
+Seats are dynamically generated based on bus capacity. The layout follows a 4-seat-per-row format (A, B on left, C, D on right). Seat availability is randomly generated for demonstration purposes.
+
+## Setup and Installation
 
 ### Prerequisites
-
 - Node.js (version 16 or higher)
-- npm or yarn package manager
+- npm or yarn
 
-### Installation
+### Steps
 
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd "Bus Ticketing App"
+   git clone https://github.com/n01t/bus-ticketing-app.git
+   cd bus-ticketing-app
    ```
 
-2. **Install dependencies**
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. **Start the development server**
+3. Start the development server:
    ```bash
-   npm run dev
+   npm run build
    ```
 
-4. **Open your browser**
-   Navigate to `http://localhost:5173` (or the port shown in the terminal)
+4. Open your browser and navigate to the URL shown in the terminal (usually `http://localhost:5173`)
 
 ### Build for Production
 
@@ -147,136 +123,51 @@ Each bus includes:
 npm run build
 ```
 
-The production build will be created in the `dist` directory.
+This creates a production build in the `dist` directory.
 
-### Preview Production Build
+## Features
 
-```bash
-npm run preview
-```
+### Home Page
+Search form with validation for source city, destination city, and journey date. Includes a popular routes section to help users find available buses quickly.
 
-## 🎨 Features in Detail
+### Search Details Page
+Displays available buses in card format with all relevant information. Each card has a "Select Seats" button to proceed with booking.
 
-### 1. Home Page
-- Clean, modern design with gradient background
-- Form validation for:
-  - Required fields
-  - Source and destination cannot be the same
-  - Date must be in the future
-- Responsive layout for all screen sizes
+### Seat Selection Page
+Interactive seat map where users can select multiple seats. The total fare is calculated in real-time as seats are selected. Visual indicators show available (green), selected (blue), and booked (gray) seats.
 
-### 2. Search Details Page
-- Displays filtered buses based on search criteria
-- Each bus card shows:
-  - Bus name, operator, and type
-  - Departure and arrival times
-  - Duration and fare
-  - Available seats count
-  - Amenities badges
-- Handles empty state when no buses are found
+### Passenger Information Page
+Form to collect passenger details with comprehensive validation:
+- Name: Required, minimum 2 characters, letters only
+- Email: Required, valid email format
+- Phone: Required, exactly 10 digits
+- Age: Required, between 1-120
 
-### 3. Seat Selection Page
-- Interactive seat map with visual indicators:
-  - Green: Available seats
-  - Blue: Selected seats
-  - Gray: Booked seats
-- Real-time fare calculation as seats are selected
-- Seat numbers and row indicators
-- Booking summary sidebar with total fare
+### Review Ticket Page
+Complete summary of the booking including route, bus details, selected seats, passenger information, and total fare. Users can review everything before confirming.
 
-### 4. Passenger Information Page
-- Comprehensive form validation:
-  - Name: Required, min 2 characters, letters only
-  - Email: Required, valid email format
-  - Phone: Required, exactly 10 digits
-  - Age: Required, between 1-120
-- Real-time error messages
-- User-friendly error handling
+### View Ticket Page
+Final ticket display with a randomly generated ticket ID. All booking and passenger details are shown in a print-friendly format.
 
-### 5. Review Ticket Page
-- Complete booking summary:
-  - Journey details
-  - Bus information
-  - Selected seats
-  - Passenger information
-  - Total fare
-- Option to edit details before confirmation
+## Error Handling
 
-### 6. View Ticket Page
-- Beautifully formatted ticket with:
-  - Randomly generated ticket ID (format: TKT-XXXXXXXX)
-  - All booking and passenger details
-  - Print-friendly design
-- Options to book another ticket or print
+The application handles various edge cases:
+- Navigation guards prevent access to pages without required data
+- Form validation with clear error messages
+- Empty states when no buses are found for a route
+- Route protection redirects users if required data is missing
 
-## 🎯 Error Handling
+## Responsive Design
 
-The application includes comprehensive error handling:
+The application is fully responsive and works on desktop, tablet, and mobile devices. Tailwind CSS utility classes ensure consistent styling across all screen sizes.
 
-1. **Navigation Guards**: Prevents access to pages without required data
-2. **Form Validation**: Client-side validation with clear error messages
-3. **Empty States**: User-friendly messages when no data is available
-4. **Route Protection**: Redirects users to appropriate pages if required data is missing
-
-## 📱 Responsive Design
-
-The application is fully responsive and works seamlessly on:
-- Desktop (1920px and above)
-- Laptop (1024px - 1919px)
-- Tablet (768px - 1023px)
-- Mobile (320px - 767px)
-
-## 🔒 Best Practices Implemented
-
-1. **Modern React Patterns**: Functional components with hooks
-2. **Code Reusability**: Shared components and utilities
-3. **Consistent Naming**: Clear, descriptive variable and function names
-4. **Error Boundaries**: Proper error handling throughout
-5. **Accessibility**: Semantic HTML and proper form labels
-6. **Performance**: Optimized re-renders with proper dependency arrays
-
-## 📝 Notes
+## Notes
 
 - All data is hardcoded as per assignment requirements
 - Seat availability is randomly generated for demonstration
-- Booking data is stored in-memory (resets on page refresh)
+- Booking data is stored in-memory and resets on page refresh
 - Ticket IDs are randomly generated in the format `TKT-XXXXXXXX`
-
-## 🚀 Deployment
-
-To deploy this application:
-
-1. **Build the project**
-   ```bash
-   npm run build
-   ```
-
-2. **Deploy the `dist` folder** to your preferred hosting service:
-   - **Vercel**: Connect your GitHub repo or upload the `dist` folder
-   - **Netlify**: Drag and drop the `dist` folder or connect via Git
-   - **GitHub Pages**: Use the `dist` folder with GitHub Actions
-
-### Vercel Deployment
-```bash
-npm install -g vercel
-vercel
-```
-
-### Netlify Deployment
-```bash
-npm install -g netlify-cli
-netlify deploy --prod --dir=dist
-```
-
-## 📄 License
-
-This project is created for educational/assignment purposes.
-
-## 👤 Author
-
-Created as part of a frontend assignment demonstrating React.js skills and best practices.
 
 ---
 
-**Note**: This application is a simulation and does not process real payments or bookings. All data is hardcoded for demonstration purposes.
-
+This project was created as part of a frontend assignment to demonstrate React.js skills and best practices.
