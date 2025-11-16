@@ -2,6 +2,10 @@
 
 A modern, responsive bus ticketing website built with React.js. This application simulates a complete bus booking flow from searching for buses to generating a final ticket.
 
+## 🌐 Live Demo
+
+**[View Live Application](https://bus-ticketing-app.vercel.app)**
+
 ## Overview
 
 This project implements a full-stack frontend application for bus ticket booking. Users can search for buses between cities, select seats, enter passenger details, review their booking, and receive a confirmation ticket. All data is hardcoded as per the assignment requirements.
