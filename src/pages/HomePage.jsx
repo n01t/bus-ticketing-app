@@ -2,13 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useBooking } from "../context/BookingContext";
 import { getCities } from "../services/cityService";
-import { getAvailableRoutes } from "../services/busService";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { updateSearchParams } = useBooking();
   const cities = getCities();
-  const availableRoutes = getAvailableRoutes();
 
   const [formData, setFormData] = useState({
     fromCity: "",
@@ -136,48 +134,14 @@ const HomePage = () => {
                     }`}
                   >
                     <option value="">Select destination city</option>
-                    {formData.fromCity
-                      ? availableRoutes
-                          .filter((route) => route.from === formData.fromCity)
-                          .map((route) => route.to)
-                          .filter(
-                            (city, index, self) => self.indexOf(city) === index
-                          )
-                          .map((city) => (
-                            <option key={city} value={city}>
-                              {city} ✓
-                            </option>
-                          ))
-                          .concat(
-                            cities
-                              .filter(
-                                (city) =>
-                                  city !== formData.fromCity &&
-                                  !availableRoutes.some(
-                                    (route) =>
-                                      route.from === formData.fromCity &&
-                                      route.to === city
-                                  )
-                              )
-                              .map((city) => (
-                                <option key={city} value={city}>
-                                  {city}
-                                </option>
-                              ))
-                          )
-                      : cities
-                          .filter((city) => city !== formData.fromCity)
-                          .map((city) => (
-                            <option key={city} value={city}>
-                              {city}
-                            </option>
-                          ))}
+                    {cities
+                      .filter((city) => city !== formData.fromCity)
+                      .map((city) => (
+                        <option key={city} value={city}>
+                          {city}
+                        </option>
+                      ))}
                   </select>
-                  {formData.fromCity && (
-                    <p className="mt-1 text-xs text-gray-500">
-                      Cities marked with ✓ have buses available
-                    </p>
-                  )}
                   {errors.toCity && (
                     <p className="mt-1 text-sm text-red-600">{errors.toCity}</p>
                   )}
@@ -218,62 +182,6 @@ const HomePage = () => {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-
-        {/* Available Routes Section */}
-        <div className="max-w-4xl mx-auto mt-12">
-          <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
-              Popular Routes
-            </h2>
-            <p className="text-gray-600 text-center mb-6">
-              Select from these available routes to find buses
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {availableRoutes.slice(0, 12).map((route, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setFormData({
-                      fromCity: route.from,
-                      toCity: route.to,
-                      date: formData.date,
-                    });
-                  }}
-                  className="p-4 border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-all text-left group"
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold text-gray-900 group-hover:text-primary-600">
-                        {route.from} → {route.to}
-                      </p>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {route.count} bus{route.count > 1 ? "es" : ""} available
-                      </p>
-                    </div>
-                    <svg
-                      className="w-5 h-5 text-gray-400 group-hover:text-primary-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </div>
-                </button>
-              ))}
-            </div>
-            {availableRoutes.length > 12 && (
-              <p className="text-center text-sm text-gray-500 mt-4">
-                And {availableRoutes.length - 12} more routes available
-              </p>
-            )}
           </div>
         </div>
 

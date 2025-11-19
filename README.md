@@ -142,7 +142,7 @@ This creates a production build in the `dist` directory.
 
 ### Home Page
 
-Search form with validation for source city, destination city, and journey date. Includes a popular routes section to help users find available buses quickly.
+Search form with validation for source city, destination city, and journey date.
 
 ### Search Details Page
 
