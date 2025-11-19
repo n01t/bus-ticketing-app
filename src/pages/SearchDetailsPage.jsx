@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useBooking } from "../context/BookingContext";
-import { filterBuses, getAvailableRoutes } from "../services/busService";
+import { filterBuses } from "../services/busService";
 
 const SearchDetailsPage = () => {
   const navigate = useNavigate();
@@ -110,27 +110,9 @@ const SearchDetailsPage = () => {
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               No buses found
             </h3>
-            <p className="text-gray-600 mb-4">
-              Sorry, we couldn't find any buses for this route on the selected
-              date.
+            <p className="text-gray-600 mb-6">
+              Sorry, we couldn't find any buses for this route on the selected date.
             </p>
-            <div className="mb-6">
-              <p className="text-sm font-semibold text-gray-700 mb-2">
-                Available routes include:
-              </p>
-              <div className="flex flex-wrap gap-2 justify-center">
-                {getAvailableRoutes()
-                  .slice(0, 8)
-                  .map((route, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-                    >
-                      {route.from} → {route.to}
-                    </span>
-                  ))}
-              </div>
-            </div>
             <Link
               to="/"
               className="inline-block bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors"

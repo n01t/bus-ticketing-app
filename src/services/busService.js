@@ -352,23 +352,3 @@ export const getBusById = (busId) => {
   return buses.find(bus => bus.id === busId) || null
 }
 
-/**
- * Get all available routes (unique from-to combinations)
- * @returns {Array} Array of route objects with from and to cities
- */
-export const getAvailableRoutes = () => {
-  const routes = new Map()
-  buses.forEach(bus => {
-    const key = `${bus.from}-${bus.to}`
-    if (!routes.has(key)) {
-      routes.set(key, {
-        from: bus.from,
-        to: bus.to,
-        count: 0,
-      })
-    }
-    routes.get(key).count++
-  })
-  return Array.from(routes.values())
-}
-
